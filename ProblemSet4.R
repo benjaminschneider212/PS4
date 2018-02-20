@@ -10,7 +10,7 @@ myFunction<-function(doorthing, doorthing2, x){
   doorthing1<-doorthing2<-sample(1:3, 1)
   if (doorthing1==doorthing2){ x<-TRUE } else { x==FALSE }
   x
-}
+} #something's not right! Something is missing! Something here just doesn't belong...
 
 myFunction(sample(1:3, 1), sample(1:3, 1)) #so as of right now, we can see that this function always returns true. This is not correct.
 debug(myFunction) #using the debug fucntion to go line by line and figure out where things went wrong
@@ -32,9 +32,9 @@ myFunction(door1, door2) #success!
 
 ##Problem 1
 
-chosenDoor<-sample(1:3,1)
-carDoor<-sample(1:3,1)
-switch<-c(TRUE,FALSE)
+chosenDoor<-sample(1:3,1) #setting these up to call below
+carDoor<-sample(1:3,1) #setting these up to call below
+switch<-c(TRUE,FALSE) #setting these up to call below
 
 setClass(Class="Door", #Here we set up the class 4 object
          representation=representation(
@@ -63,7 +63,7 @@ setMethod("initialize", "Door", function(.Object, ...) {
   value = callNextMethod()
   validObject(value)
   return(value)
-})
+}) #we have to do this in order to be able to do the generic properly
 
 #here we are setting a generic function which we will expand into a S4 class function below. 
 setGeneric("PlayGame", #setting our name of the generic
@@ -102,7 +102,7 @@ PlayGame(game1) #Yay! it worked, this will return a True if won and a false if l
 ##Problem 1
 
 #so we are now going to use the sapply variant of the apply function to run the simulation 1000 times because we cannot use for loops!
-no.switch.simulation<-sapply(1:1000, function(i){PlayGame(new("Door", chosenDoor=1L, carDoor=1L, switch=FALSE))})
+no.switch.simulation<-sapply(1:1000, function(i){PlayGame(new("Door", chosenDoor=1L, carDoor=1L, switch=FALSE))}) #looking at the help file we know that the sapply returns us a vector of out boolean measures that we should be able to consequently manipulate
 table(no.switch.simulation) #just to look at the output to check that the percentage is done correctly
 no.switch.simulation<-as.data.frame(table(no.switch.simulation)) #as a data frame so the results can be taken directly from the simulation and do the math
 no.switch.simulation[2,2]/10 #we can think of this as the proportion/1000*100 which simplifies as dividing by 10 for a pure percentage
@@ -111,11 +111,11 @@ no.switch.simulation[2,2]/10 #we can think of this as the proportion/1000*100 wh
 ##Problem 2
 
 #this is exactly the same as above, but with the switch condition in effect. The figuring out of the percentage of the win and such is the same in spirit so refer to the documentation above
-switch.simulation<-sapply(1:1000, function(i){PlayGame(new("Door", chosenDoor=1L, carDoor=1L, switch=TRUE))})
-table(switch.simulation)
-switch.simulation<-as.data.frame(table(switch.simulation))
-switch.simulation[2,2]/10
+switch.simulation<-sapply(1:1000, function(i){PlayGame(new("Door", chosenDoor=1L, carDoor=1L, switch=TRUE))}) #same as above
+table(switch.simulation) #same as above
+switch.simulation<-as.data.frame(table(switch.simulation)) #same as above
+switch.simulation[2,2]/10 #this percent is higher than the one above
 
 ##Problem 3
 
-#In this case, we can see that the strategy with switch is definitely the superior one.
+#In this case, we can see that the strategy with switch is definitely the superior one. Employing theories of conditional probability and of course Bayes' Rule, this definitely makes sense!

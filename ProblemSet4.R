@@ -71,7 +71,31 @@ setGeneric("PlayGame", #setting our name of the generic
              standardGeneric("PlayGame")} #listing that this is a standard generic and matching the names correctly (did that wrong at first)
            )
 
-#ok, now time to set up the method accordingly to make sure that
+#ok, now time to set up the method accordingly to make sure that we can do this function!
+
+setMethod(f="PlayGame",signature="Door",
+          def=function(object){
+            chosenDoor <- object@chosenDoor #this is taking in the value of the object and breaking it down to use in function
+            carDoor <- object@carDoor #this is taking in the value of the object and breaking it down to use in function
+            switch <- object@switch #this is taking in the value of the object and breaking it down to use in function
+            firstdraw<-as.integer(sample(1:3,1)) #this simulates our first picked door
+            carDoor<-as.integer(sample(1:3,1)) #this simulates the door that the car is behind
+            drawdoor<-c(firstdraw,carDoor) #This concatanates the drawn door and the door with the car as a vector 
+            dooroptions<-c(1:3) #this creates a different vector that can contain the values of all three doors
+            drawdoor #creating an if else for the drawdoor vector we just created we just created
+            if (isTRUE(switch)==F) {finalDoor<-firstdraw} #this creates a variable of final door, because switch is false the chosen door is kept
+            else { #now we are setting the else condition for when the switch is not F aka TRUE
+            deletedoor<-sample(subset(dooroptions, !(dooroptions %in% drawdoor)),1) #here we are picking the door that does not have the car in it, and was not chosen by the player
+            cannotchoose<-c(firstdraw,deletedoor) #this creates a vector with the door that was originally chosen and the removed door
+            switchdoor<-dooroptions[!dooroptions %in% cannotchoose] #this picks out the door that is left over from above
+            finalDoor<-sample(switchdoor,1)}#this draws out just a single value for the purpose of getting the door that was switched to
+            if (finalDoor==carDoor){winner<-TRUE} #create an if else in order to show the win condition
+            else {winner<-FALSE} #in this case the else shows that the do not win
+            print(winner)
+          })
+
+game1<-new("Door", chosenDoor=1L, carDoor=2L, switch=FALSE) #Creation of a variable to plug into the game to test it
+PlayGame(game1) #Yay! it worked, this will return a True if won and a false if lost
 
 ###SIMULATION###
 

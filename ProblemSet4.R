@@ -101,6 +101,21 @@ PlayGame(game1) #Yay! it worked, this will return a True if won and a false if l
 
 ##Problem 1
 
+#so we are now going to use the sapply variant of the apply function to run the simulation 1000 times because we cannot use for loops!
+no.switch.simulation<-sapply(1:1000, function(i){PlayGame(new("Door", chosenDoor=1L, carDoor=1L, switch=FALSE))})
+table(no.switch.simulation) #just to look at the output to check that the percentage is done correctly
+no.switch.simulation<-as.data.frame(table(no.switch.simulation)) #as a data frame so the results can be taken directly from the simulation and do the math
+no.switch.simulation[2,2]/10 #we can think of this as the proportion/1000*100 which simplifies as dividing by 10 for a pure percentage
+
+
 ##Problem 2
 
+#this is exactly the same as above, but with the switch condition in effect. The figuring out of the percentage of the win and such is the same in spirit so refer to the documentation above
+switch.simulation<-sapply(1:1000, function(i){PlayGame(new("Door", chosenDoor=1L, carDoor=1L, switch=TRUE))})
+table(switch.simulation)
+switch.simulation<-as.data.frame(table(switch.simulation))
+switch.simulation[2,2]/10
+
 ##Problem 3
+
+#In this case, we can see that the strategy with switch is definitely the superior one.
